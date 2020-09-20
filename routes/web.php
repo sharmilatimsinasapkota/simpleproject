@@ -23,7 +23,8 @@ Route::get('/about', function () {
     ]);
 });
 Route::get('/articles','App\Http\Controllers\ArticlesController@index');
-Route::post('/articles','App\Http\Controllers\ArticlesController@store');
-Route::get('/articles/create','App\Http\Controllers\ArticlesController@create');
+Route::post('/articles','App\Http\Controllers\ArticlesController@store'); //create new row in database table
+Route::get('/articles/create','App\Http\Controllers\ArticlesController@create');//to show up the create form for the user
 Route::get('/articles/{article}','App\Http\Controllers\ArticlesController@show');
-
+Route::get('/articles/{article}/edit','App\Http\Controllers\ArticlesController@edit'); // to show up the edit form for the user
+Route::put('/articles/{article}','App\Http\Controllers\ArticlesController@update');
