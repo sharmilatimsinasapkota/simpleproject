@@ -10,44 +10,41 @@ class ArticlesController extends Controller
         $articles=Article::latest()->get();
         return view ('articles.index',['articles'=>$articles]);
     }
-    public function show($articleId){
-        //dd($articleId);
-        $article=Article::find($articleId);
+
+
+    public function show(Article $article){
         return view ('articles.show',['article'=>$article]);
     }
 
+    
     public function create(){
         return view('articles.create');
     }
 
-    public function store(){
-        request()->validate([
-            'title'=>'required',
-            'excerpt'=>'required',
-            'body'=>'required'
-            ]);
-        $article=new Article();
-        $article->title=request('title');
-        $article->excerpt=request('excerpt');
-        $article->body=request('body');
-        $article->save();
+    
+    public function store()
+    {
+        Article::create($this->validateArticle());
         return redirect('/articles');
     }
- 
-    public function edit($articleId){
-        //dd($articleId);
-        $article=Article::find($articleId);
+
+    public function edit(Article $article){
         return view ('articles.edit',['article'=>$article]);
     }
 
-    public function update($id){
-        //dd($articleId);
-        $article=Article::find($id);
-        $article->title=request('title');
-        $article->excerpt=request('excerpt');
-        $article->body=request('body');
-        $article->save();
+
+    public function update(Article $article){
+        $article->update($this->validateArticle());
         return  redirect('/articles/'.$article->id);
+    }
+
+
+    protected function validateArticle(){
+        return request()->validate([
+            'title'=>'required',
+            'excerpt'=>'required',
+            'body'=>'required'
+        ]);
     }
 
 }
